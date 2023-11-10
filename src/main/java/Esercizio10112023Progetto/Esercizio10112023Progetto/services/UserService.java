@@ -56,7 +56,7 @@ public class UserService {
 
     public void deleteUser(int id,DispositivoService dispositivoService){
         User u=this.getSingleUser(id);
-        u.getListaDispositivi().forEach(elem->dispositivoService.setStato(new SetStatoDispositivoPayload(Stato.DISPONIBILE), elem.getId()));
+        u.getListaDispositivi().forEach(elem->dispositivoService.setStato(new SetStatoDispositivoPayload("DISPONIBILE"), elem.getId()));
         if(!u.getImageUrl().equals("https://picsum.photos/200/300")){
             cloudinaryService.deleteImageByUrl(u.getImageUrl());
         }

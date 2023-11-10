@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record SetUserDispositivoPayload(
 
-        Stato stato,
+        String stato,
         @NotNull(message = "devi attribuire un utente")
         int user_id
 ) {

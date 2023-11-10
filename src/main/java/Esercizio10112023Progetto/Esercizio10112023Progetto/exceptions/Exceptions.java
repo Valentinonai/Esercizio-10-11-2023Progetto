@@ -16,6 +16,12 @@ public class Exceptions {
             List<String> errors =e.getErrorsList().stream().map(elem->elem.getDefaultMessage()).toList();
             return new ListErrorsPayload(errors,new Date());
         }
+    @ExceptionHandler(SingleBadRequest.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorPayload singleBadRequest(SingleBadRequest e) {
+
+        return new ErrorPayload(e.getMessage(),new Date());
+    }
     @ExceptionHandler(NotFound.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorPayload notFound(NotFound e) {
