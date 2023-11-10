@@ -1,5 +1,6 @@
 package Esercizio10112023Progetto.Esercizio10112023Progetto.services;
 
+import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.Dispositivo;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.User;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.UserPayload;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.exceptions.NotFound;
@@ -11,12 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -64,5 +65,11 @@ public class UserService {
         userRepository.save(u);
         return  u;
 
+    }
+
+    public List<Dispositivo> getDispositiviById(int id){
+ List<Dispositivo> dispositivoList=userRepository.findDispositiviById(id).orElseThrow(()->new NotFound("Nessun dispositivo associato all'utente selezionato"));
+if(dispositivoList.isEmpty()) throw new NotFound("Nessun dispositivo associato all'utente selezionato");
+        return dispositivoList;
     }
 }

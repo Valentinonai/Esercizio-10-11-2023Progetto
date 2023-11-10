@@ -1,5 +1,6 @@
 package Esercizio10112023Progetto.Esercizio10112023Progetto.controllers;
 
+import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.Dispositivo;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.User;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.UserPayload;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.exceptions.BadRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -54,5 +56,11 @@ public class UserController {
     @PutMapping("/{id}/image")
     public User modifyImage(@PathVariable int id,@RequestParam("immagineProfilo")MultipartFile file) throws IOException {
         return userService.modifyImage(file,id);
+    }
+
+
+    @GetMapping("/{id}/dispositivi")
+    public List<Dispositivo> getDispositiviById(@PathVariable int id){
+        return userService.getDispositiviById(id);
     }
 }
