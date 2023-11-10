@@ -25,6 +25,8 @@ public class User {
     private String email;
     @Column(name = "username")
     private String username;
+    @Column(name = "immagine")
+    private String imageUrl;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Dispositivo> listaDispositivi;

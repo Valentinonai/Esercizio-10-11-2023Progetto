@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public User createUser(UserPayload userPayload){
-        User u=User.builder().nome(userPayload.nome()).cognome(userPayload.cognome()).email(userPayload.email()).username(userPayload.nome()+"_"+userPayload.cognome()).build();
+        User u=User.builder().nome(userPayload.nome()).cognome(userPayload.cognome()).email(userPayload.email()).username(userPayload.nome()+"_"+userPayload.cognome()).imageUrl("https://picsum.photos/200/300").build();
         userRepository.save(u);
         return u;
     }
