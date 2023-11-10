@@ -43,7 +43,7 @@ public class DispositivoService {
             dispositivoRepository.save(dispositivo);
             return dispositivo;
         }
-        else throw new Unauthorized("Endpoint sbagliato");
+        else throw new Unauthorized("Endpoint sbagliato o dispositivo già assegnato o con stato non DISPONIBILE");
 
 
     }
@@ -58,7 +58,7 @@ public class DispositivoService {
         Dispositivo d=this.getSingleDispositivo(id);
         switch (body.stato()){
             case ASSEGNATO -> {
-                throw new Unauthorized("EndPoint sbagliato");
+                throw new Unauthorized("EndPoint sbagliato non puoi assegnare uno user qui");
             }
             case DISMESSO -> {
                 d.setUser(null);
