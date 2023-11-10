@@ -4,6 +4,8 @@ import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.User;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.UserPayload;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.exceptions.NotFound;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.repositories.UserRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,11 +14,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private Cloudinary cloudinary;
 
 
     public Page<User> getAllUsers(int page,int size,String order){
@@ -50,4 +57,12 @@ public class UserService {
         userRepository.delete(u);
     }
 
+    public User modifyImage(MultipartFile file, int id) throws IOException {
+        User u=this.getSingleUser(id);
+        String url=(String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        u.setImageUrl(url);
+        userRepository.save(u);
+        return  u;
+
+    }
 }

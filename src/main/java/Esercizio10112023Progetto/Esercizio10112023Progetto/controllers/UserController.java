@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -46,5 +48,11 @@ public class UserController {
     public void deleteUser(@PathVariable int id)
     {
         userService.deleteUser(id);
+    }
+
+
+    @PutMapping("/{id}/image")
+    public User modifyImage(@PathVariable int id,@RequestParam("immagineProfilo")MultipartFile file) throws IOException {
+        return userService.modifyImage(file,id);
     }
 }
