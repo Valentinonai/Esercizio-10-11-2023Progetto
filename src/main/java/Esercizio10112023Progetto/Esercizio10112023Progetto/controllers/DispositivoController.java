@@ -2,7 +2,8 @@ package Esercizio10112023Progetto.Esercizio10112023Progetto.controllers;
 
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.Dispositivo;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.DispositivoPayload;
-import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.DispositivoPayloadModifica;
+import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.SetStatoDispositivoPayload;
+import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.SetUserDispositivoPayload;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.exceptions.BadRequest;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.services.DispositivoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +38,21 @@ public class DispositivoController {
             throw new BadRequest(validation.getAllErrors());
         return dispositivoService.createDispositivo(dispositivo);
     }
-//    @PutMapping("/{id}")
-//    public Dispositivo modifyDispositivo(@RequestBody @Validated DispositivoPayloadModifica dispositivo,BindingResult validation,@PathVariable int id){
-//        if(validation.hasErrors())  throw new BadRequest(validation.getAllErrors());
-//        return dispositivoService.modifyDispositivo(dispositivo,id);
-//    }
+    @PutMapping("/{id}")
+    public Dispositivo setUserDispositivo(@RequestBody @Validated SetUserDispositivoPayload dispositivo, BindingResult validation, @PathVariable int id){
+        if(validation.hasErrors())  throw new BadRequest(validation.getAllErrors());
+        return dispositivoService.setUserDispositivo(dispositivo,id);
+    }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDispositivo(@PathVariable int id){
         dispositivoService.deleteDispositivo(id);
     }
+
+    @PutMapping("/stato/{id}")
+    public Dispositivo setStato(@PathVariable int id,@RequestBody SetStatoDispositivoPayload body){
+        return setStato(id,body);
+
+    }
+
 }

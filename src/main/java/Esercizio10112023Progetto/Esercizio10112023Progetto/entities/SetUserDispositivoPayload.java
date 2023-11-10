@@ -1,13 +1,11 @@
 package Esercizio10112023Progetto.Esercizio10112023Progetto.entities;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-public record DispositivoPayloadModifica(
+public record SetUserDispositivoPayload(
 
         Stato stato,
         @NotNull(message = "devi attribuire un utente")
-        int id
+        int user_id
 ) {
 }

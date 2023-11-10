@@ -21,7 +21,11 @@ public class Exceptions {
     public ErrorPayload notFound(NotFound e) {
         return new ErrorPayload(e.getMessage(),new Date());
     }
-
+@ExceptionHandler(Unauthorized.class)
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
+public ErrorPayload unauthorized(Unauthorized e){
+        return new ErrorPayload(e.getMessage(),new Date());
+}
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorPayload serverError(Exception e){
