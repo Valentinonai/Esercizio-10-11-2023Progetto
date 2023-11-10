@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
 
     public Page<User> getAllUsers(int page,int size,String order){
@@ -53,12 +56,17 @@ public class UserService {
 
     public void deleteUser(int id,DispositivoService dispositivoService){
         User u=this.getSingleUser(id);
-        userRepository.delete(u);
         u.getListaDispositivi().forEach(elem->dispositivoService.setStato(new SetStatoDispositivoPayload(Stato.DISPONIBILE), elem.getId()));
+        cloudinaryService.deleteImageByUrl(u.getImageUrl());
+        userRepository.delete(u);
     }
 
     public User modifyImage(MultipartFile file, int id) throws IOException {
         User u=this.getSingleUser(id);
+        if(!u.getImageUrl().equals("https://picsum.photos/200/300")){
+            cloudinaryService.deleteImageByUrl(u.getImageUrl());
+        }
+
         String url=(String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
         u.setImageUrl(url);
         userRepository.save(u);
