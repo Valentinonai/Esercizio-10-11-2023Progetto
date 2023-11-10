@@ -4,6 +4,7 @@ import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.Dispositivo;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.User;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.UserPayload;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.exceptions.BadRequest;
+import Esercizio10112023Progetto.Esercizio10112023Progetto.services.DispositivoService;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,8 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private DispositivoService dispositivoService;
     @GetMapping()
     public Page<User> getAllUsers(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "5")int size, @RequestParam(defaultValue = "id") String order){
         return userService.getAllUsers(page,size>20?5:size,order);
@@ -49,7 +52,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable int id)
     {
-        userService.deleteUser(id);
+        userService.deleteUser(id,dispositivoService);
     }
 
 

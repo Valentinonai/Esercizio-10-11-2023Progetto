@@ -1,8 +1,6 @@
 package Esercizio10112023Progetto.Esercizio10112023Progetto.services;
 
-import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.Dispositivo;
-import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.User;
-import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.UserPayload;
+import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.*;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.exceptions.NotFound;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.repositories.UserRepository;
 import com.cloudinary.Cloudinary;
@@ -53,8 +51,9 @@ public class UserService {
         return u;
     }
 
-    public void deleteUser(int id){
+    public void deleteUser(int id,DispositivoService dispositivoService){
         User u=this.getSingleUser(id);
+        u.getListaDispositivi().forEach(elem->dispositivoService.setStato(new SetStatoDispositivoPayload(Stato.DISPONIBILE), elem.getId()));
         userRepository.delete(u);
     }
 
