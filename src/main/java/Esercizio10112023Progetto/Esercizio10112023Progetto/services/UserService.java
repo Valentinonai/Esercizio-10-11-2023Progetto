@@ -53,8 +53,8 @@ public class UserService {
 
     public void deleteUser(int id,DispositivoService dispositivoService){
         User u=this.getSingleUser(id);
-        u.getListaDispositivi().forEach(elem->dispositivoService.setStato(new SetStatoDispositivoPayload(Stato.DISPONIBILE), elem.getId()));
         userRepository.delete(u);
+        u.getListaDispositivi().forEach(elem->dispositivoService.setStato(new SetStatoDispositivoPayload(Stato.DISPONIBILE), elem.getId()));
     }
 
     public User modifyImage(MultipartFile file, int id) throws IOException {
