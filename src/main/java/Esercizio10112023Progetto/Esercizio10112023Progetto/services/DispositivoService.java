@@ -35,7 +35,6 @@ public class DispositivoService {
     }
 
     public Dispositivo setUserDispositivo(SetUserDispositivoPayload d, int id){
-
         Dispositivo dispositivo=this.getSingleDispositivo(id);
         User u=userService.getSingleUser(d.user_id());
         if(dispositivo.getStato()== Stato.DISPONIBILE&& d.stato()== Stato.ASSEGNATO){
@@ -44,7 +43,7 @@ public class DispositivoService {
             dispositivoRepository.save(dispositivo);
             return dispositivo;
         }
-        else throw new Unauthorized("Il dispositivo non è disponibile");
+        else throw new Unauthorized("Endpoint sbagliato");
 
 
     }
@@ -55,7 +54,7 @@ public class DispositivoService {
     }
 
 
-    public Dispositivo setStato(int id,SetStatoDispositivoPayload body){
+   public Dispositivo setStato(SetStatoDispositivoPayload body,int id){
         Dispositivo d=this.getSingleDispositivo(id);
         switch (body.stato()){
             case ASSEGNATO -> {
@@ -82,4 +81,6 @@ public class DispositivoService {
         }
         throw new BadRequest("Stato scelto inesistente");
     }
+
+
 }

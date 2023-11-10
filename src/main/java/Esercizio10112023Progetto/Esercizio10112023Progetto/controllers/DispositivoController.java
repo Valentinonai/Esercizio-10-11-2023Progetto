@@ -49,9 +49,9 @@ public class DispositivoController {
         dispositivoService.deleteDispositivo(id);
     }
 
-    @PutMapping("/stato/{id}")
+    @PutMapping("/{id}/stato")
     public Dispositivo setStato(@PathVariable int id,@RequestBody SetStatoDispositivoPayload body){
-        return setStato(id,body);
+        return dispositivoService.setStato(body,id);
 
     }
 
