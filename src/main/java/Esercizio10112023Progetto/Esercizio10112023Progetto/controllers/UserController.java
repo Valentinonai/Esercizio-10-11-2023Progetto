@@ -2,10 +2,13 @@ package Esercizio10112023Progetto.Esercizio10112023Progetto.controllers;
 
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.User;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.entities.UserPayload;
+import Esercizio10112023Progetto.Esercizio10112023Progetto.exceptions.BadRequest;
 import Esercizio10112023Progetto.Esercizio10112023Progetto.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,11 +28,17 @@ public class UserController {
     }
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(UserPayload userPayload){
+    public User createUser(@RequestBody @Validated UserPayload userPayload, BindingResult validation){
+        if(validation.hasErrors()){
+            throw new BadRequest(validation.getAllErrors());
+        }
         return userService.createUser(userPayload);
     }
     @PutMapping("/{id}")
-    public User modifyUser(UserPayload userPayload,@PathVariable int id){
+    public User modifyUser(@RequestBody @Validated UserPayload userPayload,BindingResult validation,@PathVariable int id){
+        if(validation.hasErrors()){
+            throw new BadRequest(validation.getAllErrors());
+        }
         return userService.modifyUser(userPayload,id);
     }
     @DeleteMapping("/{id}")
